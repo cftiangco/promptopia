@@ -66,3 +66,23 @@ export async function generateMetadata({params, searchParam}) {
     return {title: product.title}
 }
 ```
+
+# File Stucture
+
+- app/
+    - layout.jsx
+    - page.jsx
+- components/
+    - Feed.jsx
+    - Form.jsx
+    - Nav.jsx
+    - Footer.jsx
+    - Profle.jsx
+- models/
+- node_modules
+- public
+    - icons/
+    - images/
+- styles/
+    - global.css
+- utils/
