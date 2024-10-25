@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 import Form from '@components/Form'
 
 function UpdatePrompt() {
@@ -12,9 +12,7 @@ function UpdatePrompt() {
     prompt: '',
     tag: '',
   })
-
-  const searchParams = useSearchParams();
-  const promptId = searchParams.get('id');
+  const [promptId,setPrompId] = useState('');
 
   const updatePrompt = async (e) => {
     e.preventDefault();
@@ -40,6 +38,11 @@ function UpdatePrompt() {
       setSubmmiting(false);
     }
   }
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setPrompId(params.get('id'));
+  },[]);
 
   useEffect(() => {
     const getPromptDetails = async () => {
