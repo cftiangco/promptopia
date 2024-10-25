@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Form from '@components/Form'
 
-function CreatePrompt() {
+function UpdatePrompt() {
 
   const router = useRouter();
 
@@ -52,4 +52,4 @@ function CreatePrompt() {
   )
 }
 
-export default CreatePrompt
+export default UpdatePrompt
