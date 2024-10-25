@@ -5,7 +5,6 @@ import {useState, useEffect} from 'react'
 import PromptCard from './PromptCard'
 
 const PromptCardList = ({data, handleTagClick}) => {
-  console.log(`data:`,data)
   return (
     <div className='mt-16 prompt_layout'>
       {data.map((post) => (
@@ -21,17 +20,36 @@ const PromptCardList = ({data, handleTagClick}) => {
 
 function Feed() {
   const [searchText,setSearchText] = useState("");
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState([]);
+  const [filteredPost, setFilteredPost] = useState([]);
 
   const handleSearchChange = (e) => {
-
+    setSearchText(e.target.value)
   }
+
+  const handleTagClick = (tag) => {
+    setSearchText(tag);
+  }
+
+  useEffect(() => {
+    if(searchText === '') {
+      setFilteredPost(posts);
+    } else {
+      let filtered = posts.filter((p) => {
+        return p.prompt.toLowerCase().includes(searchText.toLowerCase()) || 
+        p.tag.toLowerCase().includes(searchText.toLowerCase()) ||
+        p.creator.username.toLowerCase().includes(searchText.toLowerCase())
+      })
+      setFilteredPost(filtered);
+    }
+  },[searchText])
 
   useEffect(() => {
     const fetchPost = async () => {
       const response = await fetch('/api/prompt');
       const data = await response.json();
       setPosts(data);
+      setFilteredPost(data);
     }
 
     fetchPost();
@@ -56,8 +74,8 @@ function Feed() {
       </form>
 
       <PromptCardList 
-        data={posts}
-        handleTagClick={() => {}}
+        data={filteredPost}
+        handleTagClick={handleTagClick}
       />
 
     </section>
