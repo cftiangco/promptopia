@@ -2,8 +2,8 @@
 const API = "http://localhost:8080";
 
 const getBlog = async (slug)  => {
-  const respose = await fetch(`${API}/blogs/${slug}`);
-  const post = respose.json();
+  const response = await fetch(`${API}/blogs/${slug}`);
+  const post = await response.json();
   if (!post) notFound()
   return await post;
 }
@@ -19,7 +19,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
   const post = await getBlog(slug);
 
   return {
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }) {
 }
 
 async function Blog({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
 
   const post = await getBlog(slug);
 

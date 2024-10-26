@@ -86,3 +86,45 @@ export async function generateMetadata({params, searchParam}) {
 - styles/
     - global.css
 - utils/
+
+# Standards
+
+## app router naming
+- /blog/ = /blog 
+- /blog/slug/page.js = /blog/blog-12345
+- use the layout to inherit the design to your child components
+
+## static site generation
+- use the two components to build a dynamic static sites
+    - generateStaticParams
+        - use to fetch all data from backend API
+    - generateMetadata
+        - use to add dynamic metadata
+```
+export async function generateStaticParams() {
+  const response = await fetch(`${API}/blogs`)
+  const posts = await response.json()
+  return posts.map((post) => ({
+    slug: post.slug,
+  }));
+}
+
+export async function generateMetadata({ params }) {
+  const { slug } = await params;
+  const post = await getBlog(slug);
+
+  return {
+    title: post.description,
+    description: post.slug,
+  };
+}
+
+```
+
+## out folder
+- add out export to your next.config.mjs file to create a output folder during build time
+```
+const nextConfig = {
+    output: 'export',
+};
+```
